@@ -1,0 +1,24 @@
+# Data
+prices <- c(1, 1, 5, 5, 5, 5, 5, 18, 18, 20, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 25, 25, 25, 25, 25, 28, 28, 30, 30, 30)
+
+# (i) Equal-frequency partitioning with bin equal to 3
+num_bins <- 3
+bin_size <- length(prices) / num_bins
+bins <- split(prices, ceiling(seq_along(prices) / bin_size))
+
+# Display bins
+cat("Equal-frequency bins:\n")
+print(bins)
+
+# (ii) Data smoothing using bin means
+bin_means <- sapply(bins, mean)
+cat("Bin means:\n")
+print(bin_means)
+
+# Data smoothing using bin boundaries
+bin_boundaries <- sapply(bins, function(x) c(min(x), max(x)))
+cat("Bin boundaries:\n")
+print(bin_boundaries)
+
+# (iii) Plot histogram for the frequency division
+hist(prices, breaks = 3, main = "Histogram of Prices", xlab = "Price", ylab = "Frequency", col = "lightblue", border = "black")
