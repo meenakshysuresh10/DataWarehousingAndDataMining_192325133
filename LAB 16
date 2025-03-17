@@ -1,0 +1,12 @@
+# Load the AirPassengers dataset
+data("AirPassengers")
+
+# Create the histogram
+hist(AirPassengers, 
+     breaks = seq(100, 700, by = 150),  # Bins from 100 to 700, 150 wide
+     xlim = c(100, 700),                # Limit x-axis from 100 to 700
+     main = "Histogram of AirPassengers", 
+     xlab = "Number of Passengers", 
+     ylab = "Frequency", 
+     col = "lightblue", 
+     border = "black")
