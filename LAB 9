@@ -1,0 +1,38 @@
+# Marks scored by a student
+marks <- c(55, 60, 71, 63, 55, 65, 50, 55, 58, 59, 61, 63, 65, 67, 71, 72, 75)
+
+# (a) Equal-frequency (equi-depth) partitioning
+num_bins <- 3
+bin_size <- length(marks) / num_bins
+equal_freq_bins <- split(marks, ceiling(seq_along(marks) / bin_size))
+
+# Display equal-frequency bins
+cat("Equal-frequency bins:\n")
+print(equal_freq_bins)
+
+# (b) Equal-width partitioning
+min_mark <- min(marks)
+max_mark <- max(marks)
+bin_width <- (max_mark - min_mark) / num_bins
+equal_width_bins <- cut(marks, breaks = seq(min_mark, max_mark, by = bin_width), include.lowest = TRUE)
+
+# Display equal-width bins
+cat("Equal-width bins:\n")
+print(equal_width_bins)
+
+# Plot histograms
+par(mfrow = c(1, 2))  # Arrange plots in 1 row and 2 columns
+
+# Equal-frequency histogram
+hist(marks, breaks = quantile(marks, probs = seq(0, 1, length.out = num_bins + 1)), 
+     main = "Equal-Frequency Partitioning", 
+     xlab = "Marks", 
+     col = "lightblue", 
+     border = "black")
+
+# Equal-width histogram
+hist(marks, breaks = seq(min_mark, max_mark, by = bin_width), 
+     main = "Equal-Width Partitioning", 
+     xlab = "Marks", 
+     col = "lightgreen", 
+     border = "black")
