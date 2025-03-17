@@ -1,0 +1,44 @@
+# Load necessary libraries
+library(arules)       # For Apriori and FP-Growth
+library(arulesViz)    # For visualization
+
+# Define the transactions
+transactions <- list(
+  c("M", "O", "N", "K", "E", "Y"),
+  c("D", "O", "N", "K", "E", "Y"),
+  c("M", "A", "K", "E"),
+  c("M", "U", "C", "K", "Y"),
+  c("C", "O", "O", "K", "I", "E")
+)
+
+# Convert the list to a transaction object
+trans <- as(transactions, "transactions")
+
+# (1) Apriori Algorithm
+# Set minimum support = 50% (2 transactions) and confidence = 80%
+rules_apriori <- apriori(trans, parameter = list(support = 0.5, confidence = 0.8, minlen = 2))
+
+# Inspect the frequent itemsets and rules
+cat("Frequent Itemsets (Apriori):\n")
+inspect(rules_apriori)
+
+# Visualize the rules
+plot(rules_apriori, method = "graph")
+
+# (2) FP-Growth Algorithm
+# Find frequent itemsets using FP-Growth
+frequent_itemsets <- eclat(trans, parameter = list(support = 0.5, minlen = 2))
+
+# Inspect the frequent itemsets
+cat("Frequent Itemsets (FP-Growth):\n")
+inspect(frequent_itemsets)
+
+# Convert frequent itemsets to rules
+rules_fp <- ruleInduction(frequent_itemsets, trans, confidence = 0.8)
+
+# Inspect the rules
+cat("Association Rules (FP-Growth):\n")
+inspect(rules_fp)
+
+# Visualize the rules
+plot(rules_fp, method = "graph")
