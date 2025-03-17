@@ -1,0 +1,43 @@
+# Load necessary libraries
+library(rpart)       # For Decision Tree
+library(rpart.plot)  # For Decision Tree visualization
+library(RWeka)       # For Rule-Based Classification (JRip)
+
+# Load a dataset (e.g., iris)
+data(iris)
+
+# Split data into training and test sets
+set.seed(123)
+train_index <- sample(1:nrow(iris), 0.7 * nrow(iris))
+train_data <- iris[train_index, ]
+test_data <- iris[-train_index, ]
+
+# (1) Decision Tree Classification
+dt_model <- rpart(Species ~ ., data = train_data, method = "class")
+rpart.plot(dt_model)
+
+# Predict using Decision Tree
+dt_predictions <- predict(dt_model, test_data, type = "class")
+dt_accuracy <- mean(dt_predictions == test_data$Species)
+cat("Decision Tree Accuracy:", dt_accuracy, "\n")
+
+# (2) Rule-Based Classification (JRip)
+rule_model <- JRip(Species ~ ., data = train_data)
+
+# Predict using Rule-Based Classification
+rule_predictions <- predict(rule_model, test_data)
+rule_accuracy <- mean(rule_predictions == test_data$Species)
+cat("Rule-Based Accuracy:", rule_accuracy, "\n")
+
+# Compare accuracy
+accuracy <- data.frame(
+  Algorithm = c("Decision Tree", "Rule-Based"),
+  Accuracy = c(dt_accuracy, rule_accuracy)
+print(accuracy)
+
+# Plot accuracy comparison
+barplot(accuracy$Accuracy, names.arg = accuracy$Algorithm, 
+        col = c("lightblue", "lightgreen"), 
+        main = "Accuracy Comparison", 
+        ylab = "Accuracy", 
+        ylim = c(0, 1))
