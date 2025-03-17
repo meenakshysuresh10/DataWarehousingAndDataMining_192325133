@@ -1,0 +1,28 @@
+# Load necessary libraries
+library(ggplot2)
+
+# Load the diabetes dataset
+diabetes <- read.csv("diabetes.csv")
+
+# Scatterplot: BloodPressure vs Age
+ggplot(diabetes, aes(x = Age, y = BloodPressure)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  labs(title = "Scatterplot of Blood Pressure vs Age",
+       x = "Age",
+       y = "Blood Pressure") +
+  theme_minimal()
+
+# Bar Chart: Average Blood Pressure by Age Group
+# Create age groups
+diabetes$AgeGroup <- cut(diabetes$Age, breaks = seq(20, 80, by = 10), labels = c("20-30", "30-40", "40-50", "50-60", "60-70", "70-80"))
+
+# Calculate average blood pressure for each age group
+avg_bp <- aggregate(BloodPressure ~ AgeGroup, data = diabetes, FUN = mean)
+
+# Bar Chart
+ggplot(avg_bp, aes(x = AgeGroup, y = BloodPressure)) +
+  geom_bar(stat = "identity", fill = "orange") +
+  labs(title = "Average Blood Pressure by Age Group",
+       x = "Age Group",
+       y = "Average Blood Pressure") +
+  theme_minimal()
