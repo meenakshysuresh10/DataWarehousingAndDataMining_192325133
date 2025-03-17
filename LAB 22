@@ -1,0 +1,38 @@
+# Load necessary libraries
+library(arules)
+library(arulesViz)
+
+# Create the transaction data
+transactions <- list(
+  c("Milk", "Beer", "Diapers"),
+  c("Bread", "Butter", "Milk"),
+  c("Milk", "Diapers", "Cookies"),
+  c("Bread", "Butter", "Cookies"),
+  c("Beer", "Cookies", "Diapers"),
+  c("Milk", "Diapers", "Bread", "Butter"),
+  c("Bread", "Butter", "Diapers"),
+  c("Beer", "Diapers"),
+  c("Milk", "Diapers", "Bread", "Butter"),
+  c("Beer", "Cookies")
+)
+
+# Convert to transaction format
+trans <- as(transactions, "transactions")
+
+# Apriori Algorithm
+rules_apriori <- apriori(trans, parameter = list(support = 0.3, confidence = 0.5))
+inspect(rules_apriori)
+
+# Visualize Apriori rules
+plot(rules_apriori, method = "graph")
+
+# FP-Growth Algorithm (using eclat for frequent itemsets)
+frequent_itemsets <- eclat(trans, parameter = list(support = 0.3, minlen = 2))
+inspect(frequent_itemsets)
+
+# Convert frequent itemsets to rules
+rules_fp <- ruleInduction(frequent_itemsets, trans, confidence = 0.5)
+inspect(rules_fp)
+
+# Visualize FP-Growth rules
+plot(rules_fp, method = "graph")
