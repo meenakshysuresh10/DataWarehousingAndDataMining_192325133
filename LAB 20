@@ -1,0 +1,12 @@
+# Data: Points scored by players
+points <- c(25, 30, 35, 40, 45, 50, 55, 60, 65, 100)
+
+# Create a boxplot
+boxplot(points, 
+        main = "Distribution of Points Scored by Tennis Players", 
+        ylab = "Points Scored", 
+        col = "lightgreen", 
+        border = "darkgreen")
+
+# Add a horizontal grid for better readability
+grid(nx = NA, ny = NULL, lty = 2, col = "gray")
